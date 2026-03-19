@@ -33,14 +33,13 @@ def format_message(article):
 {article['link']}
 """
 
-def send_signal(msg):
-    subprocess.run([
-        "./signal-cli/bin/signal-cli",
-        "-u", PHONE,
-        "send",
-        "-m", msg,
-        RECIPIENT
-    ], check=True)
+subprocess.run([
+    "C:/signal-cli/bin/signal-cli",
+    "-u", PHONE,
+    "send",
+    "-m", msg,
+    RECIPIENT
+], check=True)
 
 def job():
     article = get_latest_article()
