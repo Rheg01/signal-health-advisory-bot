@@ -8,7 +8,7 @@ PHONE = os.getenv("+639102406985")
 RECIPIENT = os.getenv("+639952746595")
 
 # Persistent file
-LAST_FILE = "/root/health-bot-data/last_sent.txt"
+LAST_FILE = "last_sent.txt"
 
 def already_sent(link):
     if not os.path.exists(LAST_FILE):
