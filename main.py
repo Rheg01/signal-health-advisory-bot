@@ -4,8 +4,8 @@ import time
 import os
 from fetch_news import get_latest_article
 
-PHONE = os.getenv("PHONE_NUMBER")
-RECIPIENT = os.getenv("RECIPIENT")
+PHONE = os.getenv("+639102406985")
+RECIPIENT = os.getenv("+639952746595")
 
 LAST_FILE = "last_sent.txt"
 
