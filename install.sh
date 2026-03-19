@@ -17,8 +17,4 @@ chmod +x signal-cli/bin/signal-cli
 echo "Installing Python deps..."
 pip install --no-cache-dir -r requirements.txt
 
-echo "Registering Signal (if needed)..."
-
-./signal-cli/bin/signal-cli -u $PHONE_NUMBER register || true
-
 echo "Setup complete!"
