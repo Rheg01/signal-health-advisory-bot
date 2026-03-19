@@ -1,0 +1,17 @@
+[build]
+  builder = "RAILPACK"           # Default, but explicit is good
+
+  # Install Java 21+ (signal-cli v0.14.x requires Java 21 or 25 — Railway provides recent JDKs)
+  # Railpack uses Nix under the hood; openjdk21 is safe & widely available
+  nixPkgs = ['openjdk21']
+
+  # Custom build step: download signal-cli binary
+  preDeployStart = ["chmod +x get-signal-cli.sh", "./get-signal-cli.sh"]
+
+[start]
+  cmd = "./start.sh"
+
+# Optional: healthcheck if you ever make it long-running
+[healthcheck]
+  path = "/"
+  port = 0   # no port needed for cron-only
