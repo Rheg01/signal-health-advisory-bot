@@ -42,10 +42,8 @@ subprocess.run([
 ], check=True)
 
 def job():
-    print("Fetching article...")
+    print("Job started...")
     article = get_latest_article()
-    print("Article fetched:", article)
-
     if not article:
         print("No article found")
         return
@@ -55,13 +53,10 @@ def job():
         return
 
     msg = format_message(article)
-    print("Formatted message:\n", msg)
-
-    print("Sending message...")
+    print("Message to send:\n", msg)
     send_signal(msg)
-
     save_sent(article["link"])
-    print("Message sent and saved!")
+    print("Message sent successfully!")
 
 # Run daily (PH 9AM = UTC 1AM)
 schedule.every().day.at("01:00").do(job)
