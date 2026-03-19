@@ -4,30 +4,25 @@ import time
 import os
 from fetch_news import get_latest_article
 
-# Environment variables
 PHONE = os.getenv("+639102406985")
 RECIPIENT = os.getenv("+639952746595")
 
-# Persistent file path (use Railway volume path)
-LAST_FILE = "/root/health-bot-data/last_sent.txt"  # <-- make sure your volume is mounted here
+# Persistent file
+LAST_FILE = "/root/health-bot-data/last_sent.txt"
 
-# Check if link already sent
 def already_sent(link):
     if not os.path.exists(LAST_FILE):
         return False
     with open(LAST_FILE, "r") as f:
         return link in f.read()
 
-# Save the sent link
 def save_sent(link):
     with open(LAST_FILE, "w") as f:
         f.write(link)
 
-# Clean up summary for message
 def clean_summary(text):
     return text.replace("<p>", "").replace("</p>", "")[:300]
 
-# Format message
 def format_message(article):
     return f"""🩺 {article['title']}
 
@@ -38,20 +33,28 @@ def format_message(article):
 {article['link']}
 """
 
-# Send via signal-cli
 def send_signal(msg):
-    subprocess.run([
+    result = subprocess.run([
         "./signal-cli/bin/signal-cli",
         "-u", PHONE,
         "send",
         "-m", msg,
         RECIPIENT
-    ], check=True)
+    ], capture_output=True, text=True)
 
-# Job executed daily
+    print("STDOUT:", result.stdout)
+    print("STDERR:", result.stderr)
+
+    if result.returncode != 0:
+        raise Exception("Signal send failed")
+
 def job():
-    print("Job started...")
+    print("=== JOB STARTED ===")
+    print("PHONE:", PHONE)
+    print("RECIPIENT:", RECIPIENT)
+
     article = get_latest_article()
+
     if not article:
         print("No article found")
         return
@@ -61,21 +64,23 @@ def job():
         return
 
     msg = format_message(article)
-    print("Message to send:\n", msg)
+    print("Message:\n", msg)
 
     try:
         send_signal(msg)
         save_sent(article["link"])
         print("Message sent successfully!")
     except Exception as e:
-        print("Failed to send message:", e)
+        print("Error sending message:", e)
 
-# Schedule the job
-schedule.every().day.at("01:00").do(job)  # 9AM PH time = 1AM UTC
+# 🔥 TEST MODE (runs immediately)
+job()
 
-print("Health bot running 24/7...")
+# ⏰ RUN EVERY 1 MINUTE (change to daily later)
+schedule.every(1).minutes.do(job)
 
-# Main loop
+print("Health bot running...")
+
 while True:
     schedule.run_pending()
     time.sleep(60)
