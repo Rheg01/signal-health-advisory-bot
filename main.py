@@ -40,7 +40,7 @@ def send_signal(msg):
         "-u", PHONE,
         "send",
         "-m", msg,
-        RECIPIENT
+        RECIPIENTS
     ], capture_output=True, text=True)
 
     print("STDOUT:", result.stdout)
@@ -50,7 +50,7 @@ def send_signal(msg):
         raise Exception("Signal send failed")
 
 def job():
-    print("=== JOB STARTED ===")
+    print("DAILY HEALTH ADVISORY")
     print("PHONE:", PHONE)
     print("RECIPIENTS:", RECIPIENTS)
 
