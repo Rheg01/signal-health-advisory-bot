@@ -52,7 +52,7 @@ def send_signal(msg):
 def job():
     print("=== JOB STARTED ===")
     print("PHONE:", PHONE)
-    print("RECIPIENT:", RECIPIENT)
+    print("RECIPIENTS:", RECIPIENT)
 
     article = get_latest_article()
 
