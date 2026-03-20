@@ -40,8 +40,10 @@ def get_latest_article():
         "title": entry.title,
         "summary": getattr(entry, "summary", getattr(entry, "description", "No summary available")),
         "link": entry.link
-    }import feedparser
-import random
+    }
+    
+    import feedparser
+    import random
 
 SOURCES = [
     "https://www.who.int/rss-feeds/news-english.xml",
