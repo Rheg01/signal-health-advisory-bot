@@ -5,7 +5,7 @@ import os
 from fetch_news import get_latest_article
 
 PHONE = os.getenv("+639102406985")
-RECIPIENTS = os.getenv("+639952746595", "+639606570195")
+RECIPIENTS = os.getenv("+639952746595","+639606570195")
 RECIPIENT_LIST = [r.strip() for r in RECIPIENTS.split(",") if r.strip()]
 
 # Persistent file
